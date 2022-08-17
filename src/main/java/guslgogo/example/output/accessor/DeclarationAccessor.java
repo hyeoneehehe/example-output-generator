@@ -10,7 +10,7 @@ import com.github.javaparser.ast.body.VariableDeclarator;
 
 public class DeclarationAccessor {
 	
-	public static void accessDeclaration(BodyDeclaration<?> dec) {
+	public static void accessDeclaration(BodyDeclaration<?> dec) { 
 		if(dec.isClassOrInterfaceDeclaration()) {
 			accessClassOrInterfaceDeclaration(dec.asClassOrInterfaceDeclaration());
 		
