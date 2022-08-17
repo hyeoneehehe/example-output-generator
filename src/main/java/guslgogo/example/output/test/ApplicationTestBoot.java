@@ -14,9 +14,9 @@ public class ApplicationTestBoot {
 		String path = "C:\\Applications\\Workspace\\eclipse-workspace\\example-output-generator\\"
 						+ "src\\main\\java\\guslgogo\\example\\output\\test\\BasicController.java";		
 		try {
-			JavaParserAssistant japaAssistant = new JavaParserAssistant(path);
+			//JavaParserAssistant japaAssistant = new JavaParserAssistant(path);
 			//System.out.println(japaAssistant.toString());
-			japaAssistant.getTypeDeclarations().forEach(dec -> DeclarationAccessor.accessDeclaration(dec));
+			//japaAssistant.getTypeDeclarations().forEach(dec -> DeclarationAccessor.accessDeclaration(dec));
 			
 		} catch(Exception e) {
 			e.printStackTrace();

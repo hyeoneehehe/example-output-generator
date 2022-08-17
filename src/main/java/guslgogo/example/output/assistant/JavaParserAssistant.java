@@ -1,5 +1,6 @@
 package guslgogo.example.output.assistant;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
@@ -13,9 +14,9 @@ public class JavaParserAssistant {
 	
 	private CompilationUnit compUnit;
 	
-	public JavaParserAssistant(String path) throws Exception {
+	public JavaParserAssistant(File file) throws Exception {
 		JavaParser japa = new JavaParser();
-		try(InputStream is = new FileInputStream(path)) {
+		try(InputStream is = new FileInputStream(file)) {
 			ParseResult<CompilationUnit> parseResult = japa.parse(is);
 			if(parseResult.isSuccessful() && parseResult.getProblems().size() == 0) {
 				this.compUnit = parseResult.getResult().get();
