@@ -26,7 +26,7 @@ import com.github.javaparser.ast.stmt.YieldStmt;
 
 public class StatementAccessor {
 	
-	public static void accessStatement(Statement stmt) {
+	public static void access(Statement stmt) {
 		if(stmt.isAssertStmt()) {
 			accessAssertStmt(stmt.asAssertStmt());
 			
@@ -40,7 +40,7 @@ public class StatementAccessor {
 			accessExplicitConstructorInvocationStmt(stmt.asExplicitConstructorInvocationStmt());
 			
 		} else if(stmt.isExpressionStmt()) {
-			accessExpressionStmt(stmt.asExpressionStmt());
+			accessStmt(stmt.asExpressionStmt());
 			
 		} else if(stmt.isForEachStmt()) {
 			accessForEachStmt(stmt.asForEachStmt());
@@ -85,100 +85,100 @@ public class StatementAccessor {
 	}
 	
 	public static void accessAssertStmt(AssertStmt stmt) {
-		ExpressionAccessor.accessExpression(stmt.getCheck());
-		stmt.getMessage().ifPresent(message -> ExpressionAccessor.accessExpression(message));
+		ExpressionAccessor.access(stmt.getCheck());
+		stmt.getMessage().ifPresent(message -> ExpressionAccessor.access(message));
 	}
 	
 	public static void accessBlockStmt(BlockStmt stmt) {
-		stmt.getStatements().forEach(statement -> accessStatement(statement));
+		stmt.getStatements().forEach(statement -> access(statement));
 	}
 	
 	public static void accessCatchClause(CatchClause clause) {
-		accessStatement(clause.getBody());
+		access(clause.getBody());
 	}
 	
 	public static void accessDoStmt(DoStmt stmt) {
-		accessStatement(stmt.getBody());
-		ExpressionAccessor.accessExpression(stmt.getCondition());
+		access(stmt.getBody());
+		ExpressionAccessor.access(stmt.getCondition());
 	}
 	
 	public static void accessExplicitConstructorInvocationStmt(ExplicitConstructorInvocationStmt stmt) {
-		stmt.getArguments().forEach(argument -> ExpressionAccessor.accessExpression(argument));
-		stmt.getExpression().ifPresent(expression -> ExpressionAccessor.accessExpression(expression));
+		stmt.getArguments().forEach(argument -> ExpressionAccessor.access(argument));
+		stmt.getExpression().ifPresent(expression -> ExpressionAccessor.access(expression));
 	}
 	
-	public static void accessExpressionStmt(ExpressionStmt stmt) {
-		ExpressionAccessor.accessExpression(stmt.getExpression());
+	public static void accessStmt(ExpressionStmt stmt) {
+		ExpressionAccessor.access(stmt.getExpression());
 	}
 	
 	public static void accessForEachStmt(ForEachStmt stmt) {
-		ExpressionAccessor.accessExpression(stmt.getVariable());
-		ExpressionAccessor.accessExpression(stmt.getIterable());
-		accessStatement(stmt.getBody());
+		ExpressionAccessor.access(stmt.getVariable());
+		ExpressionAccessor.access(stmt.getIterable());
+		access(stmt.getBody());
 	}
 	
 	public static void accessForStmt(ForStmt stmt) {
-		stmt.getInitialization().forEach(initialization -> ExpressionAccessor.accessExpression(initialization));
-		stmt.getCompare().ifPresent(compare -> ExpressionAccessor.accessExpression(compare));
-		stmt.getUpdate().forEach(update -> ExpressionAccessor.accessExpression(update));
-		accessStatement(stmt.getBody());
+		stmt.getInitialization().forEach(initialization -> ExpressionAccessor.access(initialization));
+		stmt.getCompare().ifPresent(compare -> ExpressionAccessor.access(compare));
+		stmt.getUpdate().forEach(update -> ExpressionAccessor.access(update));
+		access(stmt.getBody());
 	}
 	
 	public static void accessIfStmt(IfStmt stmt) {
-		ExpressionAccessor.accessExpression(stmt.getCondition());
-		accessStatement(stmt.getThenStmt());
-		stmt.getElseStmt().ifPresent(elseStmt -> accessStatement(elseStmt));
+		ExpressionAccessor.access(stmt.getCondition());
+		access(stmt.getThenStmt());
+		stmt.getElseStmt().ifPresent(elseStmt -> access(elseStmt));
 	}
 	
 	public static void accessLabeledStmt(LabeledStmt stmt) {
-		accessStatement(stmt.getStatement());
+		access(stmt.getStatement());
 	}
 	
 	public static void accessLocalClassDeclarationStmt(LocalClassDeclarationStmt stmt) {
-		DeclarationAccessor.accessDeclaration(stmt.getClassDeclaration());
+		DeclarationAccessor.access(stmt.getClassDeclaration());
 	}
 	
 	public static void accessLocalRecordDeclarationStmt(LocalRecordDeclarationStmt stmt) {
-		DeclarationAccessor.accessDeclaration(stmt.getRecordDeclaration());
+		DeclarationAccessor.access(stmt.getRecordDeclaration());
 	}
 	
 	public static void accessReturnStmt(ReturnStmt stmt) {
-		stmt.getExpression().ifPresent(expression -> ExpressionAccessor.accessExpression(expression));
+		stmt.getExpression().ifPresent(expression -> ExpressionAccessor.access(expression));
 	}
 	
 	public static void accessSwitchEnrty(SwitchEntry entry) {
-		entry.getLabels().forEach(label -> ExpressionAccessor.accessExpression(label));
-		entry.getStatements().forEach(statement -> accessStatement(statement));
+		entry.getLabels().forEach(label -> ExpressionAccessor.access(label));
+		entry.getStatements().forEach(statement -> access(statement));
 	}
 	
 	public static void accessSwitchStmt(SwitchStmt stmt) {
-		ExpressionAccessor.accessExpression(stmt.getSelector());
+		ExpressionAccessor.access(stmt.getSelector());
 		stmt.getEntries().forEach(entry -> accessSwitchEnrty(entry));
 	}
 	
 	public static void accessSynchronizedStmt(SynchronizedStmt stmt) {
-		ExpressionAccessor.accessExpression(stmt.getExpression());
-		accessStatement(stmt.getBody());
+		ExpressionAccessor.access(stmt.getExpression());
+		access(stmt.getBody());
 	}
 	
 	public static void accessThrowStmt(ThrowStmt stmt) {
-		ExpressionAccessor.accessExpression(stmt.getExpression());
+		ExpressionAccessor.access(stmt.getExpression());
 	}
 	
 	public static void accessTryStmt(TryStmt stmt) {
-		accessStatement(stmt.getTryBlock());
-		stmt.getResources().forEach(resource -> ExpressionAccessor.accessExpression(resource));
+		access(stmt.getTryBlock());
+		stmt.getResources().forEach(resource -> ExpressionAccessor.access(resource));
 		stmt.getCatchClauses().forEach(clause -> accessCatchClause(clause));
-		stmt.getFinallyBlock().ifPresent(finallyBlock -> accessStatement(finallyBlock));		
+		stmt.getFinallyBlock().ifPresent(finallyBlock -> access(finallyBlock));		
 	}
 	
 	public static void accessWhileStmt(WhileStmt stmt) {
-		ExpressionAccessor.accessExpression(stmt.getCondition());
-		accessStatement(stmt.getBody());
+		ExpressionAccessor.access(stmt.getCondition());
+		access(stmt.getBody());
 	}
 	
 	public static void accessYieldStmt(YieldStmt stmt) {
-		ExpressionAccessor.accessExpression(stmt.getExpression());
+		ExpressionAccessor.access(stmt.getExpression());
 	}
 	
 }
